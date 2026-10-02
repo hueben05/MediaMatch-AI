@@ -1,57 +1,55 @@
 # MediaMatch AI
 
-MediaMatch AI is an AI-powered anime recommendation system.
+MediaMatch AI is a content-based anime recommendation system I am building to learn machine learning, NLP, data engineering, and recommender-system development.
 
-The goal of this project is to build a recommendation engine that suggests anime based on content, popularity, and user-relevant features using machine learning techniques.
+The long-term goal is to create a personalized anime discovery application that recommends anime based on viewing history, preferences, filters, and natural-language requests.
 
-## Level 1: Data Pipeline
+## Current Pipeline
 
-In Level 1, I worked with a real-world anime dataset and focused on preparing it for analysis and machine learning.
+Raw CSV → Pandas Cleaning → Cleaned CSV → SQLite/SQL → TF-IDF → Cosine Similarity → Recommendation Filtering
 
-### What I Built
+## What I’ve Built
 
-* Loaded and explored a 10,000-row anime dataset using Pandas
-* Inspected data types, missing values, and dataset statistics
-* Removed unnecessary columns like `image_url`
-* Dropped rows missing critical data such as `synopsis`
-* Filled missing `episodes` values using the median
-* Saved the cleaned dataset to a new CSV file
-* Created a SQLite database from the cleaned dataset
-* Queried the database using SQL
+- Cleaned and prepared an approximately 10,000-row anime dataset using Pandas
+- Handled missing values and unnecessary columns
+- Stored the cleaned data in SQLite and practiced SQL queries
+- Built a content-based recommendation system using TF-IDF on anime synopses
+- Used cosine similarity to rank similar anime
+- Added post-processing to reduce same-franchise recommendations
+- Added title normalization and Jaccard-style word similarity for title filtering
+- Tested recommendations on multiple anime to identify weaknesses and failure cases
 
-### Technologies Used
+## Technologies
 
-* Python
-* Pandas
-* SQLite
-* SQL
+- Python
+- Pandas
+- SQLite
+- SQL
+- scikit-learn
+- TF-IDF
+- Cosine Similarity
+- Git / GitHub
 
-### SQL Concepts Practiced
+## Current Focus
 
-* `SELECT`
-* `WHERE`
-* `ORDER BY`
-* `LIMIT`
-* `COUNT`
-* `GROUP BY`
-* `AVG`
+The current recommender relies mainly on synopsis text, so recommendation quality can vary when synopsis similarity is low.
 
-### What I Learned
+I am currently focused on:
 
-* How to clean and prepare messy real-world data
-* The difference between dropping rows and filling missing values
-* Why median is sometimes better than mean for handling outliers
-* How Pandas and SQL solve similar data problems in different ways
-* How data moves through a pipeline:
+- Evaluating recommendation quality
+- Improving franchise filtering
+- Identifying weaknesses in the baseline model
+- Preparing for richer metadata and multi-feature recommendations
 
-Raw CSV → Cleaned DataFrame → SQLite Database → SQL Queries
+## Future Direction
 
-### Future Goals
+Planned stages include:
 
-Future levels of this project will include:
+- Genre, type, episode count, rating, and other metadata
+- Recommendations based on multiple liked anime
+- User preference profiles and viewing history
+- Filters for mood, length, format, and rating
+- Natural-language recommendation requests
+- A web interface for browsing and personalized recommendations
 
-* Machine learning recommendation models
-* Clustering and rating prediction
-* LLM integration
-* FastAPI backend development
-* Cloud deployment
+The project is being developed incrementally so I can understand and explain each part of the recommendation pipeline before adding more advanced features.
