@@ -63,10 +63,13 @@ def recommend_anime(title):
     print(f"\nRecommendations for {title}:")
 
     for index in recommendations:
+        anime_score = df.iloc[index]["score"]
+        anime_type = df.iloc[index]["type"]
+        anime_episodes = df.iloc[index]["episodes"]
         print(
             df.iloc[index]["title"],
             "- Similarity:",
-            round(similarities[index], 3)
+            round(similarities[index], 3), f"\nScore: {anime_score}\nType: {anime_type}\nEpisodes: {anime_episodes}\n"
         )
 
-recommend_anime("Shingeki no Kyojin")
+recommend_anime("Naruto")
