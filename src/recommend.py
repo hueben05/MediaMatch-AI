@@ -55,21 +55,22 @@ def recommend_anime(title):
         if title_similarity(title, candidate_title) >= 30:
             continue
 
-        recommendations.append(index)
+        anime_score = df.iloc[index]["score"]
+        anime_type = df.iloc[index]["type"]
+        anime_episodes = df.iloc[index]["episodes"]
+
+        recommendation_data = {"title": candidate_title, "similarity": round(similarities[index],3), "score": anime_score, "type": anime_type, "episodes": anime_episodes}
+
+
+        recommendations.append(recommendation_data)
 
         if len(recommendations) == 5:
             break
 
     print(f"\nRecommendations for {title}:")
 
-    for index in recommendations:
-        anime_score = df.iloc[index]["score"]
-        anime_type = df.iloc[index]["type"]
-        anime_episodes = df.iloc[index]["episodes"]
-        print(
-            df.iloc[index]["title"],
-            "- Similarity:",
-            round(similarities[index], 3), f"\nScore: {anime_score}\nType: {anime_type}\nEpisodes: {anime_episodes}\n"
-        )
-
-recommend_anime("Naruto")
+    for anime_dict in recommendations:
+        print(f"Title: {anime_dict["title"]}\nSimilarity: {anime_dict["similarity"]}\nScore: {anime_dict["score"]}\nType: {anime_dict["type"]}\nEpisodes: {anime_dict["episodes"]}\n")
+    return recommendations
+results = recommend_anime("Naruto")
+print(results[0]["title"])
