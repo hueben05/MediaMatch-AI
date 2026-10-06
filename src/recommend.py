@@ -12,10 +12,16 @@ anime_vectors = vectorizer.fit_transform(df["synopsis"])
 
 from sklearn.metrics.pairwise import cosine_similarity
 
+def clean_title(title):
+  for punctuation in string.punctuation:
+    title = title.replace(punctuation, " ")
+  title = title.lower()
+  title = title.split()
+  return title
+
 def title_similarity(title1, title2):
-    translator = str.maketrans("", "", string.punctuation)
-    new_title1 = title1.translate(translator).lower().split()
-    new_title2 = title2.translate(translator).lower().split()
+    new_title1 = clean_title(title1)
+    new_title2 = clean_title(title2)
     mySet = set(new_title1)
     mySet2 = set(new_title2)
     shared = mySet.intersection(mySet2)
@@ -24,7 +30,8 @@ def title_similarity(title1, title2):
     return similarity
 
 def recommend_anime(title):
-    matches = df[df["title"].str.lower() == title.lower()]
+    match_mask = df["title"].str.lower() == title.lower()
+    matches = df[match_mask]
 
     if matches.empty:
         print("Anime not found.")
@@ -37,7 +44,8 @@ def recommend_anime(title):
         anime_vectors
     ).flatten()
 
-    similar_indices = similarities.argsort()[::-1]
+    sorted_indices = similarities.argsort()
+    similar_indices = sorted_indices[::-1]
 
     recommendations = []
 
@@ -72,5 +80,6 @@ def recommend_anime(title):
     for anime_dict in recommendations:
         print(f"Title: {anime_dict["title"]}\nSimilarity: {anime_dict["similarity"]}\nScore: {anime_dict["score"]}\nType: {anime_dict["type"]}\nEpisodes: {anime_dict["episodes"]}\n")
     return recommendations
-results = recommend_anime("Naruto")
-print(results[0]["title"])
+
+if __name__ == "__main__":
+    results = recommend_anime("Shingeki no Kyojin")
