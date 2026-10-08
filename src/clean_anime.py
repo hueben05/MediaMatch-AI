@@ -24,3 +24,6 @@ print(new_df["episodes"].isnull().sum())
 
 #Saving it to a clean file
 new_df.to_csv("data/cleaned/anime_cleaned.csv", index=False)
+print(list(df.columns))
+
+print((df[["anime_id","title"]]).head())
