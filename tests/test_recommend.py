@@ -1,5 +1,5 @@
-from src.recommend import title_similarity
-from src.recommend import recommend_anime
+from src.recommend import recommend_anime, title_similarity
+
 
 def test_similarity():
     similarity = title_similarity("Shingeki no Kyojin", "Shingeki! Kyojin Chuugakkou")

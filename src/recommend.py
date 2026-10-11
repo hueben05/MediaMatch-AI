@@ -1,9 +1,10 @@
-import pandas as pd
 import string
+
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Load cleaned anime data
-df = pd.read_csv("data/cleaned/anime_cleaned.csv")
+df = pd.read_csv("data/cleaned/anime_with_metadata.csv")
 
 # Turn anime synopses into numerical vectors
 vectorizer = TfidfVectorizer(stop_words="english")
@@ -11,6 +12,7 @@ vectorizer = TfidfVectorizer(stop_words="english")
 anime_vectors = vectorizer.fit_transform(df["synopsis"])
 
 from sklearn.metrics.pairwise import cosine_similarity
+
 
 def clean_title(title):
   for punctuation in string.punctuation:
