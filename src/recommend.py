@@ -72,7 +72,12 @@ def recommend_anime(title):
     recommendations = []
 
     for index in similar_indices:
+        eng_title = df.iloc[index]["titleEn"]
         candidate_title = df.iloc[index]["title"]
+        if pd.isna(eng_title):
+            display_title = candidate_title
+        else:
+            display_title = eng_title
 
         # Skip the anime itself
         if candidate_title.lower() == title.lower():
@@ -89,7 +94,7 @@ def recommend_anime(title):
         anime_type = df.iloc[index]["type"]
         anime_episodes = df.iloc[index]["episodes"]
 
-        recommendation_data = {"title": candidate_title, "similarity": round(combined_scores[index],3), "score": anime_score, "type": anime_type, "episodes": anime_episodes}
+        recommendation_data = {"title": display_title, "similarity": round(combined_scores[index],3), "score": anime_score, "type": anime_type, "episodes": anime_episodes}
 
 
         recommendations.append(recommendation_data)
