@@ -1,4 +1,4 @@
-from src.recommend import recommend_anime, title_similarity
+from src.recommend import recommend_anime, title_similarity, genre_similarity
 
 
 def test_similarity():
@@ -27,3 +27,15 @@ def test_similarity_30_below():
     for anime_dict in result:
         similarity = title_similarity("Shingeki no Kyojin", anime_dict["title"])
         assert similarity < 30.0
+
+def test_genre_similarity_unrelated():
+    genre1 = "Action, Fantasy"
+    genre2 = "Hype, Real-World"
+    similarity = genre_similarity(genre1, genre2)
+    assert similarity == 0
+
+def test_genre_similarity_identical():
+    genre1 = "Action, Fantasy"
+    genre2 = "Action, Fantasy"
+    similarity = genre_similarity(genre1, genre2)
+    assert similarity == 1.0

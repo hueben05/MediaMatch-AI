@@ -109,4 +109,8 @@ def recommend_anime(title):
     return recommendations
 
 if __name__ == "__main__":
+    results = recommend_anime("Naruto")
+    results = recommend_anime("Bleach")
+    results = recommend_anime("Death Note")
+    results = recommend_anime("One Piece")
     results = recommend_anime("Shingeki no Kyojin")
