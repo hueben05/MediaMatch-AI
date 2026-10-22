@@ -1,4 +1,5 @@
 import pandas as pd
+
 df = pd.read_csv('data/raw/anime.csv')
 # ------ Data Exploration (Debug/Learning) ------
 print(df.head())

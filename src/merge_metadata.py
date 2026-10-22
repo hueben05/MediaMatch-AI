@@ -1,4 +1,5 @@
 import pandas as pd
+
 df = pd.read_csv('data/raw/anime_metadata.csv')
 orig_df = pd.read_csv('data/cleaned/anime_cleaned.csv')
 #print(df[["id","title","genres","titleEn"]].head())

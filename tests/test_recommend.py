@@ -1,4 +1,4 @@
-from src.recommend import recommend_anime, title_similarity, genre_similarity
+from src.recommend import genre_similarity, recommend_anime, title_similarity
 
 
 def test_similarity():
