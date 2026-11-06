@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request
 
 from src.recommend import recommend_from_likes
@@ -24,4 +26,5 @@ def recommend():
     return {"recommendation": five_recommended}
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port = 5001)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host="0.0.0.0", debug=True, port = port)
