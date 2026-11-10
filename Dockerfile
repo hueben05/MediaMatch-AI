@@ -3,4 +3,4 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
-CMD ["python3", "-m", "src.app"]
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-5001} src.app:app"]
