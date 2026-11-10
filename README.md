@@ -1,29 +1,33 @@
 # MediaMatch AI
 
-MediaMatch AI is a content-based anime recommendation system I am building to learn machine learning, NLP, data engineering, and recommender-system development.
+MediaMatch AI is a content-based anime recommendation system I am building to learn machine learning, NLP, data engineering, API development, and recommender-system development.
 
 The long-term goal is to create a personalized anime discovery application that recommends anime based on viewing history, preferences, filters, and natural-language requests.
 
 ## Current Pipeline
 
-Raw CSV → Pandas Cleaning → Cleaned CSV → SQLite/SQL → TF-IDF → Cosine Similarity → Recommendation Filtering
+Raw CSV → Pandas Cleaning → Cleaned CSV → SQLite/SQL → TF-IDF Synopsis Similarity + Genre Similarity → Multi-Anime Taste Profile → Flask REST API → Docker → Render
 
 ## What I’ve Built
 
 - Cleaned and prepared an approximately 10,000-row anime dataset using Pandas
 - Handled missing values and unnecessary columns
 - Stored the cleaned data in SQLite and practiced SQL queries
-- Built a content-based recommendation system using TF-IDF on anime synopses
-- Used cosine similarity to rank similar anime
-- Added filtering to prevent the exact searched anime from recommending itself
-- Added basic same-franchise filtering
-- Added title cleaning and Jaccard-style word similarity for title filtering
+- Built a Stage 1 content-based recommender using TF-IDF on anime synopses and cosine similarity
+- Evaluated the Stage 1 baseline across 5 anime and 25 recommendations, producing a human relevance score of 1.31/5
+- Added richer anime metadata and genre similarity in Stage 2
+- Combined synopsis similarity at 70% and genre similarity at 30%
+- Improved the same benchmark to 3.54/5 in Stage 2
+- Built a Stage 3 multi-anime recommendation profile from several liked anime
+- Averaged the liked-anime TF-IDF vectors into one combined synopsis taste profile
+- Built a weighted genre taste profile from the user’s liked anime
+- Prevented selected anime from being recommended back to the user
 - Returned structured recommendation data including title, similarity, score, type, and episode count
-- Built a pytest suite with 6 tests covering title similarity, unknown titles, self-recommendations, punctuation/capitalization, and franchise filtering
-- Evaluated the baseline recommender across 5 anime and 25 recommendations
-- Established a baseline human relevance score of 1.31/5 for future comparison
-- Identified weaknesses including shared character names, shallow synopsis overlap, and same-franchise titles with unrelated names
-- Refactored repeated and confusing code while keeping all tests passing
+- Built a Flask REST API with JSON input validation and error handling
+- Built a pytest suite with 15 tests covering recommendation logic and Flask API validation
+- Containerized the API with Docker
+- Deployed the Dockerized API on Render and verified valid and invalid live requests
+- Tested a Gunicorn-based Docker startup locally for the public deployment path
 
 ## Technologies
 
@@ -34,33 +38,83 @@ Raw CSV → Pandas Cleaning → Cleaned CSV → SQLite/SQL → TF-IDF → Cosine
 - scikit-learn
 - TF-IDF
 - Cosine Similarity
+- Flask
+- REST APIs
 - pytest
+- Docker
+- Gunicorn
+- Render
 - Git / GitHub
 
 ## Current Focus
 
-Stage 1 of the recommendation system is complete.
+Stage 3 of MediaMatch AI is complete.
 
-The current recommender relies primarily on TF-IDF similarity between anime synopses. The baseline evaluation showed that synopsis similarity alone does not consistently capture genre, tone, franchise relationships, or broader viewer preferences.
+The current system builds a taste profile from multiple anime a user likes by combining synopsis TF-IDF similarity with genre similarity. MediaMatch exposes this recommendation system through a tested Flask REST API.
 
-I am currently focused on improving the recommendation system with richer anime information by:
+The API has been containerized with Docker and deployed on Render. The Docker startup path has also been tested locally with Gunicorn as the production server.
 
-- Adding genre information to the dataset
-- Deciding which fields should affect recommendation similarity and which should act as filters
-- Adding genre information to the recommendation process
-- Using type, rating, and episode count appropriately
-- Comparing the improved recommender against the Stage 1 baseline
-- Expanding tests as recommendation behavior becomes more complex
+The next development step is focused PyTorch preparation before Stage 4, where MediaMatch will add pretrained transformer embeddings for semantic recommendation.
+
+## Running MediaMatch
+
+### Local Flask Development
+
+```bash
+python3 -m src.app
+```
+
+The API runs locally on port 5001 unless a different `PORT` environment variable is provided.
+
+### Docker
+
+Build the image:
+
+```bash
+docker build -t mediamatch-ai .
+```
+
+Run the container:
+
+```bash
+docker run -p 5001:5001 mediamatch-ai
+```
+
+Test the recommendation endpoint:
+
+```bash
+curl -X POST http://127.0.0.1:5001/recommend \
+-H "Content-Type: application/json" \
+-d '{"liked_titles":["Naruto","Death Note"]}'
+```
+
+### Live Deployment
+
+MediaMatch AI is deployed on Render:
+
+`https://mediamatch-ai.onrender.com`
+
+The recommendation endpoint is:
+
+`POST /recommend`
+
+Example JSON request:
+
+```json
+{
+  "liked_titles": ["Naruto", "Death Note"]
+}
+```
 
 ## Future Direction
 
 Planned stages include:
 
-- Recommendations based on multiple liked anime
-- User preference profiles and viewing history
-- Filters for mood, length, format, genre, and rating
+- Pretrained transformer embeddings for semantic recommendations
+- User-controlled filters for format, rating, episode length, genre, and exclusions
+- Stored viewing history, likes, and dislikes for persistent personalization
 - Natural-language recommendation requests
-- Semantic search and embeddings
-- A web interface for browsing and personalized recommendations
+- A web interface for browsing, search, filters, and personalized recommendation cards
+- Final testing, documentation, evaluation, and recruiter-ready project presentation
 
 The project is being developed incrementally so I can understand, test, and explain each part of the recommendation pipeline before adding more advanced features.
